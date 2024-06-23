@@ -45,9 +45,14 @@
                     success: function(response) {
                         let resultDiv = $('#results');
                         resultDiv.empty();
-                        response.forEach(item => {
-                            resultDiv.append(`<p>Produit: ${item.produit}, Stock Restant: ${item.stock_restant}</p>`);
-                        });
+                        console.log("Response from server:", response);
+                        if (Array.isArray(response)) {
+                            response.forEach(item => {
+                                resultDiv.append(`<p>Produit: ${item.produit}, Stock Restant: ${item.stock_restant}</p>`);
+                            });
+                        } else {
+                            resultDiv.html('<p>Erreur: réponse inattendue du serveur.</p>');
+                        }
                     },
                     error: function(error) {
                         console.error("Error occurred:", error);
