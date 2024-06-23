@@ -31,6 +31,8 @@
                     jours: jours
                 };
 
+                console.log("Sending data to server:", data);
+
                 $.ajax({
                     url: 'https://cadeauxchics.pythonanywhere.com/predire_stock',
                     type: 'POST',
@@ -44,7 +46,7 @@
                         });
                     },
                     error: function(error) {
-                        console.error(error);
+                        console.error("Error occurred:", error);
                         $('#results').html('<p>Une erreur s\'est produite.</p>');
                     }
                 });
