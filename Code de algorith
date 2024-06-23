@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Stocks</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Prédiction des Stocks Restants</h1>
+    <form id="stockForm">
+        <label for="produits">Produits (séparés par des virgules) :</label><br>
+        <input type="text" id="produits" name="produits" value="cahier,porte-clés,stylo,bracelet"><br>
+        <label for="stock_initial">Stocks Initiaux (séparés par des virgules) :</label><br>
+        <input type="text" id="stock_initial" name="stock_initial" value="100,200,150,80"><br>
+        <label for="ventes_jour">Ventes par Jour (séparés par des virgules) :</label><br>
+        <input type="text" id="ventes_jour" name="ventes_jour" value="5,10,7,4"><br>
+        <label for="jours">Nombre de Jours :</label><br>
+        <input type="number" id="jours" name="jours" value="30"><br><br>
+        <input type="submit" value="Prédire les Stocks">
+    </form>
+    <h2>Résultats</h2>
+    <div id="results"></div>
+    
+    <script>
+        $(document).ready(function() {
+            $('#stockForm').submit(function(event) {
+                event.preventDefault();
+                
+                const produits = $('#produits').val().split(',');
+                const stock_initial = $('#stock_initial').val().split(',').map(Number);
+                const ventes_jour = $('#ventes_jour').val().split(',').map(Number);
+                const jours = parseInt($('#jours').val());
+
+                const data = {
+                    produits: produits,
+                    stock_initial: stock_initial,
+                    ventes_jour: ventes_jour,
+                    jours: jours
+                };
+
+                $.ajax({
+                    url: 'https://cadeauxchics.pythonanywhere.com/predire_stock',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function(response) {
+                        let resultDiv = $('#results');
+                        resultDiv.empty();
+                        response.forEach(item => {
+                            resultDiv.append(`<p>Produit: ${item.produit}, Stock Restant: ${item.stock_restant}</p>`);
+                        });
+                    },
+                    error: function(error) {
+                        console.error(error);
+                        $('#results').html('<p>Une erreur s\'est produite.</p>');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
