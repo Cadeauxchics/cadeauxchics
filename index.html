@@ -9,10 +9,6 @@
 <body>
     <h1>Prédiction des Stocks Restants</h1>
     <form id="stockForm">
-        <label for="produits">Produits (séparés par des virgules) :</label><br>
-        <input type="text" id="produits" name="produits" value="cahier,porte-clés,stylo,bracelet"><br>
-        <label for="stock_initial">Stocks Initiaux (séparés par des virgules) :</label><br>
-        <input type="text" id="stock_initial" name="stock_initial" value="100,200,150,80"><br>
         <label for="ventes_jour">Ventes par Jour (séparés par des virgules) :</label><br>
         <input type="text" id="ventes_jour" name="ventes_jour" value="5,10,7,4"><br>
         <label for="jours">Nombre de Jours :</label><br>
@@ -27,14 +23,10 @@
             $('#stockForm').submit(function(event) {
                 event.preventDefault();
                 
-                const produits = $('#produits').val().split(',');
-                const stock_initial = $('#stock_initial').val().split(',').map(Number);
                 const ventes_jour = $('#ventes_jour').val().split(',').map(Number);
                 const jours = parseInt($('#jours').val());
 
                 const data = {
-                    produits: produits,
-                    stock_initial: stock_initial,
                     ventes_jour: ventes_jour,
                     jours: jours
                 };
